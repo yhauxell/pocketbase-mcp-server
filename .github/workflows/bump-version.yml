@@ -1,0 +1,66 @@
+name: Manual Version Bump & Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      bump_type:
+        description: 'Type of version bump (patch, minor, major)'
+        required: true
+        default: 'patch'
+        type: choice
+        options:
+          - patch
+          - minor
+          - major
+
+jobs:
+  bump-and-release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Use Node.js 20.x
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20.x
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Configure Git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Bump version
+        id: bump
+        run: |
+          # Bump version in package.json and package-lock.json without creating a git tag automatically
+          NEW_VERSION=$(npm version ${{ github.event.inputs.bump_type }} --no-git-tag-version)
+          echo "New version: $NEW_VERSION"
+          echo "version=$NEW_VERSION" >> $GITHUB_OUTPUT
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build project
+        run: npm run build
+
+      - name: Publish to NPM
+        run: npm publish --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Commit and Push changes
+        run: |
+          git add package.json package-lock.json
+          git commit -m "Bump version to ${{ steps.bump.outputs.version }} [skip ci]"
+          git push origin main
+
+      - name: Create and Push Tag
+        run: |
+          TAG_NAME="${{ steps.bump.outputs.version }}"
+          git tag "$TAG_NAME"
+          git push origin "$TAG_NAME"
