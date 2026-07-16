@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+  workflow_dispatch:
 
 jobs:
   release:
@@ -35,8 +36,8 @@ jobs:
           fi
           echo "Previous version: $PREV_VERSION"
           
-          if [ "$CURRENT_VERSION" != "$PREV_VERSION" ]; then
-            echo "Version changed from $PREV_VERSION to $CURRENT_VERSION"
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ] || [ "$CURRENT_VERSION" != "$PREV_VERSION" ]; then
+            echo "Version changed or triggered manually. Current version: $CURRENT_VERSION"
             echo "changed=true" >> $GITHUB_OUTPUT
             echo "version=$CURRENT_VERSION" >> $GITHUB_OUTPUT
           else
