@@ -1,7 +1,7 @@
 # PocketBase MCP Server
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![NPM Version](https://img.shields.io/npm/v/pocketbase-mcp-server.svg)](https://www.npmjs.com/package/pocketbase-mcp-server)
+[![NPM Version](https://img.shields.io/npm/v/@yhauxell/pocketbase-mcp-server.svg)](https://www.npmjs.com/package/@yhauxell/pocketbase-mcp-server)
 
 A Model Context Protocol (MCP) server for interacting with PocketBase databases.
 
@@ -14,12 +14,12 @@ You can use this server directly via `npx` (recommended) or install it globally.
 ### Option 1: Run via npx
 To run the server without installing it locally, configure your MCP client to use:
 ```bash
-npx pocketbase-mcp-server
+npx @yhauxell/pocketbase-mcp-server
 ```
 
 ### Option 2: Global Installation
 ```bash
-npm install -g pocketbase-mcp-server
+npm install -g @yhauxell/pocketbase-mcp-server
 ```
 Then run the command:
 ```bash
@@ -39,7 +39,7 @@ Using admin email & password:
   "mcpServers": {
     "pocketbase-mcp-server": {
       "command": "npx",
-      "args": ["-y", "pocketbase-mcp-server"],
+      "args": ["-y", "@yhauxell/pocketbase-mcp-server"],
       "env": {
         "POCKETBASE_URL": "http://127.0.0.1:8090",
         "POCKETBASE_ADMIN_EMAIL": "your_email@example.com",
@@ -56,7 +56,7 @@ Using an auth token:
   "mcpServers": {
     "pocketbase-mcp-server": {
       "command": "npx",
-      "args": ["-y", "pocketbase-mcp-server"],
+      "args": ["-y", "@yhauxell/pocketbase-mcp-server"],
       "env": {
         "POCKETBASE_URL": "http://127.0.0.1:8090",
         "POCKETBASE_AUTH_TOKEN": "your_auth_token_here"

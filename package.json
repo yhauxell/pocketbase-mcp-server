@@ -1,5 +1,5 @@
 {
-  "name": "pocketbase-mcp-server",
+  "name": "@yhauxell/pocketbase-mcp-server",
   "version": "1.0.0",
   "description": "Model Context Protocol (MCP) server for PocketBase databases",
   "type": "module",
