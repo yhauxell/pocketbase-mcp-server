@@ -18,7 +18,6 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
-      actions: write
     steps:
       - uses: actions/checkout@v4
         with:
@@ -44,11 +43,5 @@ jobs:
       - name: Commit and Push changes
         run: |
           git add package.json package-lock.json
-          git commit -m "Bump version to ${{ steps.bump.outputs.version }} [skip ci]"
+          git commit -m "Bump version to ${{ steps.bump.outputs.version }}"
           git push origin main
-
-      - name: Trigger Publish Workflow
-        run: |
-          gh workflow run publish.yml --ref main
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
